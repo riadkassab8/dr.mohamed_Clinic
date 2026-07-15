@@ -434,6 +434,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 20px;
+      position: relative;
     }
 
     .brand {
@@ -521,9 +522,95 @@
 
     .burger {
       display: none;
-      background: none;
-      font-size: 26px;
+      width: 46px;
+      height: 46px;
+      padding: 0;
+      border-radius: 15px;
+      border: 1px solid rgba(201, 156, 61, 0.18);
+      background: rgba(255, 255, 255, 0.92);
       color: var(--primary-dark);
+      box-shadow: 0 18px 35px -24px rgba(18, 61, 78, 0.45);
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+      transition: transform .28s ease, box-shadow .28s ease, background .28s ease, border-color .28s ease;
+    }
+
+    .burger::before {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      border-radius: 12px;
+      background: radial-gradient(circle at center, rgba(201, 156, 61, 0.16), transparent 72%);
+      opacity: 0;
+      transform: scale(0.7);
+      transition: opacity .32s ease, transform .32s ease;
+    }
+
+    .burger:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 22px 40px -24px rgba(18, 61, 78, 0.6);
+    }
+
+    .burger span {
+      position: absolute;
+      right: 12px;
+      width: 22px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+      transform-origin: center;
+      transition: top .34s cubic-bezier(.68, -.55, .27, 1.55),
+        transform .34s cubic-bezier(.68, -.55, .27, 1.55),
+        opacity .22s ease,
+        width .25s ease,
+        box-shadow .28s ease;
+      box-shadow: 0 8px 16px -10px rgba(18, 61, 78, 0.7);
+      z-index: 1;
+    }
+
+    .burger span:nth-child(1) {
+      top: 14px;
+    }
+
+    .burger span:nth-child(2) {
+      top: 21px;
+      width: 17px;
+    }
+
+    .burger span:nth-child(3) {
+      top: 28px;
+    }
+
+    .burger.is-open {
+      background: linear-gradient(135deg, rgba(18, 61, 78, 0.98), rgba(28, 86, 109, 0.95));
+      border-color: rgba(255, 255, 255, 0.14);
+      box-shadow: 0 26px 44px -24px rgba(18, 61, 78, 0.82);
+    }
+
+    .burger.is-open::before {
+      opacity: 1;
+      transform: scale(1.16);
+    }
+
+    .burger.is-open span {
+      background: linear-gradient(90deg, #fff, #f7e6b0);
+      box-shadow: 0 10px 20px -12px rgba(255, 255, 255, 0.55);
+    }
+
+    .burger.is-open span:nth-child(1) {
+      top: 21px;
+      transform: rotate(45deg) scaleX(1.05);
+    }
+
+    .burger.is-open span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(12px) scaleX(0.4);
+    }
+
+    .burger.is-open span:nth-child(3) {
+      top: 21px;
+      transform: rotate(-45deg) scaleX(1.05);
     }
 
     /* ===== PAGE SYSTEM ===== */
@@ -1843,7 +1930,63 @@
 
     @media(max-width:900px) {
       nav.links {
-        display: none;
+        display: flex;
+        position: absolute;
+        top: calc(100% + 14px);
+        right: 20px;
+        left: 20px;
+        flex-direction: column;
+        gap: 10px;
+        padding: 16px;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.96);
+        border: 1px solid rgba(201, 156, 61, 0.16);
+        box-shadow: 0 26px 50px -28px rgba(18, 61, 78, 0.5);
+        backdrop-filter: blur(14px);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-18px) scale(0.94);
+        transform-origin: top center;
+        filter: blur(8px);
+        transition: opacity .32s ease, transform .38s cubic-bezier(.22, 1, .36, 1), filter .32s ease, visibility .32s ease;
+        z-index: 30;
+      }
+
+      nav.links::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(248, 250, 252, 0.92));
+        z-index: -1;
+      }
+
+      nav.links.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+
+      nav.links button {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: rgba(18, 61, 78, 0.04);
+        border-bottom: none;
+        text-align: right;
+        transition: transform .24s ease, background .24s ease, color .24s ease, box-shadow .24s ease;
+      }
+
+      nav.links button:hover,
+      nav.links button.active {
+        color: var(--primary-dark);
+        border-bottom: none;
+        background: rgba(201, 156, 61, 0.14);
+        transform: translateX(-4px);
+        box-shadow: 0 16px 28px -24px rgba(18, 61, 78, 0.5);
       }
 
       .nav-cta-simple {
@@ -1901,6 +2044,7 @@
         flex-direction: column;
         text-align: center;
       }
+
 
       .gallery-hint {
         white-space: normal;
@@ -1970,7 +2114,7 @@
           <span>عيادة أسنان</span>
         </div>
       </div>
-      <nav class="links" id="navLinks">
+      <nav class="links" id="navLinks" aria-hidden="true">
         <button data-page="home" class="active">الرئيسية</button>
         <button data-page="about">عن الدكتور</button>
         <button data-page="services">الخدمات</button>
@@ -1979,7 +2123,11 @@
         <a href="#" class="mobile-nav-cta" onclick="goPage('contact');return false;">احجز موعدك</a>
       </nav>
       <a href="#" class="nav-cta-simple" onclick="goPage('contact');return false;">احجز موعدك</a>
-      <button class="burger" onclick="toggleMobileNav()">☰</button>
+      <button class="burger" id="burgerButton" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="navLinks" onclick="toggleMobileNav()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
 
@@ -2736,21 +2884,68 @@
         b.classList.toggle('active', b.dataset.page === name);
       });
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      document.getElementById('navLinks').style.display = '';
+      closeMobileNav();
     }
+    const mobileNav = document.getElementById('navLinks');
+    const burgerButton = document.getElementById('burgerButton');
+
+    function openMobileNav() {
+      mobileNav.classList.add('is-open');
+      burgerButton.classList.add('is-open');
+      mobileNav.setAttribute('aria-hidden', 'false');
+      mobileNav.inert = false;
+      burgerButton.setAttribute('aria-expanded', 'true');
+      burgerButton.setAttribute('aria-label', 'إغلاق القائمة');
+    }
+
+    function closeMobileNav() {
+      mobileNav.classList.remove('is-open');
+      burgerButton.classList.remove('is-open');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      mobileNav.inert = true;
+      burgerButton.setAttribute('aria-expanded', 'false');
+      burgerButton.setAttribute('aria-label', 'فتح القائمة');
+    }
+
+    function syncMobileNavState() {
+      if (window.innerWidth > 900) {
+        mobileNav.classList.remove('is-open');
+        mobileNav.removeAttribute('aria-hidden');
+        mobileNav.inert = false;
+        burgerButton.classList.remove('is-open');
+        burgerButton.setAttribute('aria-expanded', 'false');
+        burgerButton.setAttribute('aria-label', 'فتح القائمة');
+        return;
+      }
+
+      const isOpen = mobileNav.classList.contains('is-open');
+      mobileNav.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+      mobileNav.inert = !isOpen;
+    }
+
     document.querySelectorAll('nav.links button').forEach(btn => {
       btn.addEventListener('click', () => goPage(btn.dataset.page));
     });
     function toggleMobileNav() {
-      const nav = document.getElementById('navLinks');
-      const showing = nav.style.display === 'flex';
-      nav.style.display = showing ? 'none' : 'flex';
-      nav.style.position = 'absolute';
-      nav.style.top = '64px'; nav.style.right = '20px'; nav.style.left = '20px';
-      nav.style.background = '#fff'; nav.style.flexDirection = 'column';
-      nav.style.padding = '12px'; nav.style.borderRadius = '16px';
-      nav.style.boxShadow = 'var(--shadow)';
+      const showing = mobileNav.classList.contains('is-open');
+      if (showing) {
+        closeMobileNav();
+      } else {
+        openMobileNav();
+      }
     }
+
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth > 900 || !mobileNav.classList.contains('is-open')) return;
+      if (!mobileNav.contains(e.target) && !burgerButton.contains(e.target)) {
+        closeMobileNav();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      syncMobileNavState();
+    });
+    syncMobileNavState();
 
     // before/after slider
     const slider = document.getElementById('compareSlider');
