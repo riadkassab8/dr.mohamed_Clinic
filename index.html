@@ -463,6 +463,10 @@
       box-shadow: var(--shadow-hover);
     }
 
+    .mobile-nav-cta {
+      display: none;
+    }
+
     .hero-visual {
       position: relative;
       aspect-ratio: 1/1;
@@ -929,50 +933,211 @@
     }
 
     /* Patient Gallery Grid */
+    .gallery-shell {
+      margin-top: 28px;
+      padding: 22px;
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.92)),
+        linear-gradient(135deg, rgba(197, 162, 93, 0.08), rgba(10, 54, 46, 0.04));
+      border: 1px solid rgba(10, 54, 46, 0.08);
+      box-shadow: 0 24px 50px -28px rgba(10, 54, 46, 0.18);
+    }
+
+    .gallery-intro {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .gallery-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(10, 54, 46, 0.06);
+      color: var(--primary);
+      font-size: 12.5px;
+      font-weight: 700;
+    }
+
+    .gallery-kicker::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(197, 162, 93, 0.15);
+    }
+
+    .gallery-intro h3 {
+      font-size: 24px;
+      margin-top: 10px;
+      margin-bottom: 6px;
+    }
+
+    .gallery-intro p {
+      color: var(--ink-soft);
+      font-size: 14px;
+      max-width: 620px;
+    }
+
+    .gallery-hint {
+      padding: 10px 16px;
+      border-radius: 16px;
+      background: rgba(197, 162, 93, 0.12);
+      color: var(--primary-dark);
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
     .patient-gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 16px;
-      margin-top: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
     }
 
     .patient-item {
-      aspect-ratio: 1;
-      border-radius: 12px;
+      background: var(--surface);
+      border: 1px solid rgba(10, 54, 46, 0.08);
+      border-radius: 22px;
       overflow: hidden;
       cursor: pointer;
-      border: 2px solid transparent;
-      transition: all 0.3s ease;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
       position: relative;
+      box-shadow: 0 18px 40px -30px rgba(10, 54, 46, 0.32);
+    }
+
+    .patient-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      border: 1px solid transparent;
+      transition: border-color 0.35s ease, opacity 0.35s ease;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .patient-item:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .patient-item.active {
+      border-color: rgba(197, 162, 93, 0.58);
+      transform: translateY(-8px);
+      box-shadow: 0 24px 48px -24px rgba(10, 54, 46, 0.28);
+    }
+
+    .patient-item.active::after {
+      opacity: 1;
+      border-color: rgba(197, 162, 93, 0.5);
+    }
+
+    .patient-thumb {
+      position: relative;
+      aspect-ratio: 1 / 1.05;
+      overflow: hidden;
+      background: var(--bg-warm);
     }
 
     .patient-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 0.45s ease;
     }
 
-    .patient-item:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow);
+    .patient-item:hover img,
+    .patient-item.active img {
+      transform: scale(1.05);
     }
 
-    .patient-item.active {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(197, 162, 93, 0.3);
-    }
-
-    .patient-item .patient-name {
+    .patient-thumb::after {
+      content: '';
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(5, 31, 26, 0.8);
+      inset: 0;
+      background: linear-gradient(180deg, rgba(5, 31, 26, 0.04) 0%, rgba(5, 31, 26, 0.58) 100%);
+      pointer-events: none;
+    }
+
+    .patient-badges {
+      position: absolute;
+      inset: 14px 14px auto 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      z-index: 1;
+    }
+
+    .patient-index,
+    .patient-status {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      backdrop-filter: blur(10px);
+    }
+
+    .patient-index {
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--primary-dark);
+    }
+
+    .patient-status {
+      background: rgba(5, 31, 26, 0.72);
       color: #fff;
-      font-size: 13px;
-      padding: 8px 10px;
-      text-align: center;
-      font-weight: 500;
+    }
+
+    .patient-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px 18px 18px;
+    }
+
+    .patient-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 3px;
+    }
+
+    .patient-note {
+      font-size: 12.5px;
+      color: var(--ink-soft);
+    }
+
+    .patient-arrow {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(10, 54, 46, 0.06);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    }
+
+    .patient-item:hover .patient-arrow,
+    .patient-item.active .patient-arrow {
+      background: var(--primary);
+      color: #fff;
+      transform: translateX(-3px);
     }
 
     .testi-grid {
@@ -1360,6 +1525,24 @@
         display: none;
       }
 
+      .nav-cta-simple {
+        display: none;
+      }
+
+      .mobile-nav-cta {
+        display: block;
+        width: 100%;
+        margin-top: 8px;
+        padding: 12px 16px;
+        border-radius: 14px;
+        background: var(--primary);
+        color: #fff !important;
+        font-size: 14px;
+        font-weight: 700;
+        text-align: center;
+        box-shadow: var(--shadow);
+      }
+
       .burger {
         display: block;
       }
@@ -1397,6 +1580,10 @@
         flex-direction: column;
         text-align: center;
       }
+
+      .gallery-hint {
+        white-space: normal;
+      }
     }
 
     @media(max-width:560px) {
@@ -1404,6 +1591,18 @@
       .grid-3,
       .grid-4,
       .testi-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-shell {
+        padding: 18px;
+      }
+
+      .gallery-intro h3 {
+        font-size: 21px;
+      }
+
+      .patient-gallery {
         grid-template-columns: 1fr;
       }
     }
@@ -1432,6 +1631,7 @@
         <button data-page="services">الخدمات</button>
         <button data-page="gallery">النتائج والآراء</button>
         <button data-page="contact">تواصل معنا</button>
+        <a href="#" class="mobile-nav-cta" onclick="goPage('contact');return false;">احجز موعدك</a>
       </nav>
       <a href="#" class="nav-cta-simple" onclick="goPage('contact');return false;">احجز موعدك</a>
       <button class="burger" onclick="toggleMobileNav()">☰</button>
@@ -1785,88 +1985,191 @@
 
         <div class="compare-box" id="compareBox">
           <div class="compare-layer compare-before" id="beforeLayer">
-            <svg viewBox="0 0 200 120" fill="none">
-              <path d="M20,55 Q100,15 180,55 L180,60 Q100,95 20,60 Z" fill="#E7B9A8" />
-              <g fill="#D8C79A" stroke="#B7A874" stroke-width="1">
-                <rect x="28" y="42" width="16" height="24" rx="3" transform="rotate(-8 36 54)" />
-                <rect x="45" y="38" width="17" height="27" rx="3" transform="rotate(4 53 51)" />
-                <rect x="63" y="40" width="15" height="25" rx="3" transform="rotate(-6 70 52)" />
-                <rect x="79" y="37" width="18" height="28" rx="3" />
-                <rect x="98" y="38" width="17" height="27" rx="3" transform="rotate(5 106 51)" />
-                <rect x="116" y="41" width="16" height="24" rx="3" transform="rotate(-4 124 53)" />
-                <rect x="133" y="38" width="17" height="27" rx="3" transform="rotate(7 141 51)" />
-                <rect x="151" y="43" width="15" height="23" rx="3" transform="rotate(-9 158 54)" />
-              </g>
-            </svg>
-            <span class="cap">قبل — نموذج توضيحي</span>
+            <img src="assets/case1_before.png" alt="قبل العلاج - الحالة 1" style="width:100%; height:100%; object-fit:cover;">
+            <span class="cap">قبل العلاج</span>
           </div>
           <div class="compare-layer compare-after" id="afterLayer">
-            <svg viewBox="0 0 200 120" fill="none">
-              <path d="M20,55 Q100,15 180,55 L180,60 Q100,95 20,60 Z" fill="#F3B8A6" />
-              <g fill="#FFFFFF" stroke="#E9DDBF" stroke-width="1">
-                <rect x="30" y="38" width="16" height="26" rx="4" />
-                <rect x="47" y="36" width="17" height="28" rx="4" />
-                <rect x="65" y="35" width="15" height="29" rx="4" />
-                <rect x="81" y="35" width="18" height="30" rx="4" />
-                <rect x="100" y="35" width="17" height="29" rx="4" />
-                <rect x="118" y="36" width="16" height="28" rx="4" />
-                <rect x="135" y="37" width="17" height="27" rx="4" />
-                <rect x="153" y="39" width="15" height="25" rx="4" />
-              </g>
-              <g fill="var(--accent)">
-                <path d="M165 25 l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5Z" />
-                <circle cx="35" cy="20" r="2.4" />
-              </g>
-            </svg>
-            <span class="cap">بعد — نموذج توضيحي</span>
+            <img src="assets/case1_after.png" alt="بعد العلاج - الحالة 1" style="width:100%; height:100%; object-fit:cover;">
+            <span class="cap">بعد العلاج</span>
           </div>
           <div class="compare-handle" id="handle"></div>
         </div>
         <input type="range" min="0" max="100" value="50" class="compare-slider" id="compareSlider">
         <div class="compare-caption"><span>قبل العلاج</span><span>بعد العلاج</span></div>
-        <p style="font-size:12.5px; color:var(--ink-soft); margin-top:8px;">* المساحة دي مكانها جاهز الآن لصورة توضيحية
-          فقط — استبدلها بصور حقيقية لحالاتك بعد أخذ موافقة المريض.</p>
-        
-        <div class="patient-gallery" id="patientGallery">
-          <div class="patient-item active" data-patient="1" data-before="assets/case1_before.png" data-after="assets/case1_after.png">
-            <img src="assets/case1_after.png" alt="مريض 1">
-            <div class="patient-name">مريض 1</div>
+        <p style="font-size:12.5px; color:var(--ink-soft); margin-top:8px;">اضغط على أي حالة من المعرض التالي لعرض المقارنة الخاصة بها
+          مباشرة بشكل واضح ومرتب.</p>
+
+        <div class="gallery-shell">
+          <div class="gallery-intro">
+            <div>
+              <span class="gallery-kicker">نتائج موثقة</span>
+              <h3>اختَر الحالة وشاهد النتيجة النهائية</h3>
+              <p>عرض بصري أنظف للحالات الفعلية مع بطاقة أوضح لكل صورة، بحيث يظهر المعرض بشكل احترافي ومريح للعين.</p>
+            </div>
+            <div class="gallery-hint">الحالة المحددة يتم عرضها أعلى المعرض مباشرة</div>
           </div>
-          <div class="patient-item" data-patient="2" data-before="assets/case2_before.png" data-after="assets/case2_after.png">
-            <img src="assets/case2_after.png" alt="مريض 2">
-            <div class="patient-name">مريض 2</div>
-          </div>
-          <div class="patient-item" data-patient="3" data-before="assets/case3_before.png" data-after="assets/case3_after.png">
-            <img src="assets/case3_after.png" alt="مريض 3">
-            <div class="patient-name">مريض 3</div>
-          </div>
-          <div class="patient-item" data-patient="4" data-before="assets/case4_before.png" data-after="assets/case4_after.png">
-            <img src="assets/case4_after.png" alt="مريض 4">
-            <div class="patient-name">مريض 4</div>
-          </div>
-          <div class="patient-item" data-patient="5" data-before="assets/case5_before.png" data-after="assets/case5_after.png">
-            <img src="assets/case5_after.png" alt="مريض 5">
-            <div class="patient-name">مريض 5</div>
-          </div>
-          <div class="patient-item" data-patient="6" data-before="assets/case6_before.png" data-after="assets/case6_after.png">
-            <img src="assets/case6_after.png" alt="مريض 6">
-            <div class="patient-name">مريض 6</div>
-          </div>
-          <div class="patient-item" data-patient="7" data-before="assets/case7_before.png" data-after="assets/case7_after.png">
-            <img src="assets/case7_after.png" alt="مريض 7">
-            <div class="patient-name">مريض 7</div>
-          </div>
-          <div class="patient-item" data-patient="8" data-before="assets/case8_before.png" data-after="assets/case8_after.png">
-            <img src="assets/case8_after.png" alt="مريض 8">
-            <div class="patient-name">مريض 8</div>
-          </div>
-          <div class="patient-item" data-patient="9" data-before="assets/case9_before.png" data-after="assets/case9_after.png">
-            <img src="assets/case9_after.png" alt="مريض 9">
-            <div class="patient-name">مريض 9</div>
-          </div>
-          <div class="patient-item" data-patient="10" data-before="assets/case10_before.png" data-after="assets/case10_after.png">
-            <img src="assets/case10_after.png" alt="مريض 10">
-            <div class="patient-name">مريض 10</div>
+
+          <div class="patient-gallery" id="patientGallery">
+            <div class="patient-item active" data-patient="1" data-before="assets/case1_before.png" data-after="assets/case1_after.png" role="button" tabindex="0" aria-pressed="true">
+              <div class="patient-thumb">
+                <img src="assets/case1_after.png" alt="الحالة 1 بعد العلاج">
+                <div class="patient-badges">
+                  <span class="patient-index">حالة 01</span>
+                  <span class="patient-status">بعد العلاج</span>
+                </div>
+              </div>
+              <div class="patient-meta">
+                <div>
+                  <div class="patient-name">مريض 1</div>
+                  <div class="patient-note">اضغط لعرض قبل وبعد</div>
+                </div>
+                <span class="patient-arrow">‹</span>
+              </div>
+            </div>
+            <div class="patient-item" data-patient="2" data-before="assets/case2_before.png" data-after="assets/case2_after.png" role="button" tabindex="0" aria-pressed="false">
+              <div class="patient-thumb">
+                <img src="assets/case2_after.png" alt="الحالة 2 بعد العلاج">
+                <div class="patient-badges">
+                  <span class="patient-index">حالة 02</span>
+                  <span class="patient-status">بعد العلاج</span>
+                </div>
+              </div>
+              <div class="patient-meta">
+                <div>
+                  <div class="patient-name">مريض 2</div>
+                  <div class="patient-note">اضغط لعرض قبل وبعد</div>
+                </div>
+                <span class="patient-arrow">‹</span>
+              </div>
+            </div>
+            <div class="patient-item" data-patient="3" data-before="assets/case3_before.png" data-after="assets/case3_after.png" role="button" tabindex="0" aria-pressed="false">
+              <div class="patient-thumb">
+                <img src="assets/case3_after.png" alt="الحالة 3 بعد العلاج">
+                <div class="patient-badges">
+                  <span class="patient-index">حالة 03</span>
+                  <span class="patient-status">بعد العلاج</span>
+                </div>
+              </div>
+              <div class="patient-meta">
+                <div>
+                  <div class="patient-name">مريض 3</div>
+                  <div class="patient-note">اضغط لعرض قبل وبعد</div>
+                </div>
+                <span class="patient-arrow">‹</span>
+              </div>
+            </div>
+            <div class="patient-item" data-patient="4" data-before="assets/case4_before.png" data-after="assets/case4_after.png" role="button" tabindex="0" aria-pressed="false">
+              <div class="patient-thumb">
+                <img src="assets/case4_after.png" alt="الحالة 4 بعد العلاج">
+                <div class="patient-badges">
+                  <span class="patient-index">حالة 04</span>
+                  <span class="patient-status">بعد العلاج</span>
+                </div>
+              </div>
+              <div class="patient-meta">
+                <div>
+                  <div class="patient-name">مريض 4</div>
+                  <div class="patient-note">اضغط لعرض قبل وبعد</div>
+                </div>
+                <span class="patient-arrow">‹</span>
+              </div>
+            </div>
+            <div class="patient-item" data-patient="5" data-before="assets/case5_before.png" data-after="assets/case5_after.png" role="button" tabindex="0" aria-pressed="false">
+              <div class="patient-thumb">
+                <img src="assets/case5_after.png" alt="الحالة 5 بعد العلاج">
+                <div class="patient-badges">
+                  <span class="patient-index">حالة 05</span>
+                  <span class="patient-status">بعد العلاج</span>
+                </div>
+              </div>
+              <div class="patient-meta">
+                <div>
+                  <div class="patient-name">مريض 5</div>
+                  <div class="patient-note">اضغط لعرض قبل وبعد</div>
+                </div>
+                <span class="patient-arrow">‹</span>
+              </div>
+            </div>
+            <div class="patient-item" data-patient="6" data-before="assets/case6_before.png" data-after="assets/case6_after.png" role="button" tabindex="0" aria-pressed="false">
+              <div class="patient-thumb">
+                <img src="assets/case6_after.png" alt="الحالة 6 بعد العلاج">
+                <div class="patient-badges">
+                  <span class="patient-index">حالة 06</span>
+                  <span class="patient-status">بعد العلاج</span>
+                </div>
+              </div>
+              <div class="patient-meta">
+                <div>
+                  <div class="patient-name">مريض 6</div>
+                  <div class="patient-note">اضغط لعرض قبل وبعد</div>
+                </div>
+                <span class="patient-arrow">‹</span>
+              </div>
+            </div>
+            <div class="patient-item" data-patient="7" data-before="assets/case7_before.png" data-after="assets/case7_after.png" role="button" tabindex="0" aria-pressed="false">
+              <div class="patient-thumb">
+                <img src="assets/case7_after.png" alt="الحالة 7 بعد العلاج">
+                <div class="patient-badges">
+                  <span class="patient-index">حالة 07</span>
+                  <span class="patient-status">بعد العلاج</span>
+                </div>
+              </div>
+              <div class="patient-meta">
+                <div>
+                  <div class="patient-name">مريض 7</div>
+                  <div class="patient-note">اضغط لعرض قبل وبعد</div>
+                </div>
+                <span class="patient-arrow">‹</span>
+              </div>
+            </div>
+            <div class="patient-item" data-patient="8" data-before="assets/case8_before.png" data-after="assets/case8_after.png" role="button" tabindex="0" aria-pressed="false">
+              <div class="patient-thumb">
+                <img src="assets/case8_after.png" alt="الحالة 8 بعد العلاج">
+                <div class="patient-badges">
+                  <span class="patient-index">حالة 08</span>
+                  <span class="patient-status">بعد العلاج</span>
+                </div>
+              </div>
+              <div class="patient-meta">
+                <div>
+                  <div class="patient-name">مريض 8</div>
+                  <div class="patient-note">اضغط لعرض قبل وبعد</div>
+                </div>
+                <span class="patient-arrow">‹</span>
+              </div>
+            </div>
+            <div class="patient-item" data-patient="9" data-before="assets/case9_before.png" data-after="assets/case9_after.png" role="button" tabindex="0" aria-pressed="false">
+              <div class="patient-thumb">
+                <img src="assets/case9_after.png" alt="الحالة 9 بعد العلاج">
+                <div class="patient-badges">
+                  <span class="patient-index">حالة 09</span>
+                  <span class="patient-status">بعد العلاج</span>
+                </div>
+              </div>
+              <div class="patient-meta">
+                <div>
+                  <div class="patient-name">مريض 9</div>
+                  <div class="patient-note">اضغط لعرض قبل وبعد</div>
+                </div>
+                <span class="patient-arrow">‹</span>
+              </div>
+            </div>
+            <div class="patient-item" data-patient="10" data-before="assets/case10_before.png" data-after="assets/case10_after.png" role="button" tabindex="0" aria-pressed="false">
+              <div class="patient-thumb">
+                <img src="assets/case10_after.png" alt="الحالة 10 بعد العلاج">
+                <div class="patient-badges">
+                  <span class="patient-index">حالة 10</span>
+                  <span class="patient-status">بعد العلاج</span>
+                </div>
+              </div>
+              <div class="patient-meta">
+                <div>
+                  <div class="patient-name">مريض 10</div>
+                  <div class="patient-note">اضغط لعرض قبل وبعد</div>
+                </div>
+                <span class="patient-arrow">‹</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -2131,29 +2434,51 @@
     window.addEventListener('touchend', endDrag);
 
     // Patient gallery functionality
+    function renderCompareImages(beforeImg, afterImg, patientNumber) {
+      before.innerHTML = `<img src="${beforeImg}" alt="قبل العلاج - الحالة ${patientNumber}" style="width:100%; height:100%; object-fit:cover;"><span class="cap">قبل العلاج</span>`;
+      after.innerHTML = `<img src="${afterImg}" alt="بعد العلاج - الحالة ${patientNumber}" style="width:100%; height:100%; object-fit:cover;"><span class="cap">بعد العلاج</span>`;
+    }
+
     const patientGallery = document.getElementById('patientGallery');
     if (patientGallery) {
       const patientItems = patientGallery.querySelectorAll('.patient-item');
-      
+
+      function activatePatient(item, shouldScroll = false) {
+        patientItems.forEach(i => {
+          i.classList.remove('active');
+          i.setAttribute('aria-pressed', 'false');
+        });
+
+        item.classList.add('active');
+        item.setAttribute('aria-pressed', 'true');
+
+        const beforeImg = item.dataset.before;
+        const afterImg = item.dataset.after;
+        const patientNumber = item.dataset.patient;
+
+        renderCompareImages(beforeImg, afterImg, patientNumber);
+        setCompare(50);
+
+        if (shouldScroll) {
+          compareBox.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }
+
       patientItems.forEach(item => {
-        item.addEventListener('click', () => {
-          // Remove active class from all items
-          patientItems.forEach(i => i.classList.remove('active'));
-          // Add active class to clicked item
-          item.classList.add('active');
-          
-          // Get image paths
-          const beforeImg = item.dataset.before;
-          const afterImg = item.dataset.after;
-          
-          // Update compare layers with images
-          before.innerHTML = `<img src="${beforeImg}" alt="قبل العلاج" style="width:100%; height:100%; object-fit:cover;">`;
-          after.innerHTML = `<img src="${afterImg}" alt="بعد العلاج" style="width:100%; height:100%; object-fit:cover;">`;
-          
-          // Reset slider to middle
-          setCompare(50);
+        item.addEventListener('click', () => activatePatient(item, true));
+        item.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            activatePatient(item, true);
+          }
         });
       });
+
+      const firstPatient = patientGallery.querySelector('.patient-item.active') || patientItems[0];
+      if (firstPatient) activatePatient(firstPatient);
     }
 
     // booking form -> whatsapp with validation
