@@ -46,6 +46,11 @@
       overflow-x: hidden;
     }
 
+    body.loading-screen-active {
+      overflow: hidden;
+      height: 100vh;
+    }
+
     h1,
     h2,
     h3,
@@ -81,6 +86,322 @@
     ::selection {
       background: var(--accent-soft);
       color: var(--primary-dark);
+    }
+
+    /* ===== TOOTH OUTLINE LOADER ===== */
+    .clinic-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(197, 162, 93, 0.16), transparent 34%),
+        radial-gradient(circle at 82% 26%, rgba(10, 54, 46, 0.12), transparent 30%),
+        linear-gradient(135deg, #f8f8f4 0%, #eef3ef 54%, #f6f4ed 100%);
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    .clinic-loader.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .clinic-loader::before,
+    .clinic-loader::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(20px);
+      opacity: 0.55;
+      animation: loaderAmbientFloat 7s ease-in-out infinite;
+    }
+
+    .clinic-loader::before {
+      width: 260px;
+      height: 260px;
+      top: 7%;
+      right: 8%;
+      background: rgba(197, 162, 93, 0.18);
+    }
+
+    .clinic-loader::after {
+      width: 340px;
+      height: 340px;
+      bottom: 4%;
+      left: 7%;
+      background: rgba(10, 54, 46, 0.11);
+      animation-delay: -2.4s;
+    }
+
+    .clinic-loader-card {
+      position: relative;
+      width: min(92vw, 430px);
+      padding: 34px 26px 28px;
+      border-radius: 32px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.52);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      box-shadow: 0 28px 60px -30px rgba(10, 54, 46, 0.28);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      animation: loaderCardIn 0.95s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .clinic-loader-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(197, 162, 93, 0.35), rgba(10, 54, 46, 0.1));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .clinic-loader-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+      background: rgba(10, 54, 46, 0.06);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .clinic-loader-kicker::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 5px rgba(197, 162, 93, 0.14);
+    }
+
+    .tooth-loader-stage {
+      position: relative;
+      width: 152px;
+      height: 154px;
+      margin: 0 auto 16px;
+      display: grid;
+      place-items: center;
+    }
+
+    .tooth-loader-glow {
+      position: absolute;
+      inset: 22px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(197, 162, 93, 0.22), transparent 68%);
+      animation: loaderGlowPulse 2.2s ease-in-out infinite;
+    }
+
+    .tooth-loader-svg {
+      position: relative;
+      width: 118px;
+      height: 132px;
+      overflow: visible;
+    }
+
+    .tooth-loader-outline {
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 320;
+      stroke-dashoffset: 320;
+      animation: toothOutlineDraw 2.1s ease-in-out infinite;
+      filter: drop-shadow(0 0 8px rgba(10, 54, 46, 0.12));
+    }
+
+    .tooth-loader-shine {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 1.3;
+      stroke-linecap: round;
+      stroke-dasharray: 34;
+      stroke-dashoffset: 34;
+      animation: toothShineDraw 2.1s ease-in-out infinite;
+    }
+
+    .tooth-loader-dot {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(197, 162, 93, 0.9);
+      box-shadow: 0 0 16px rgba(197, 162, 93, 0.34);
+      animation: toothDotFloat 1.8s ease-in-out infinite;
+    }
+
+    .tooth-loader-dot.dot-1 {
+      top: 26px;
+      left: 28px;
+    }
+
+    .tooth-loader-dot.dot-2 {
+      top: 44px;
+      right: 22px;
+      animation-delay: -0.6s;
+    }
+
+    .clinic-loader-title {
+      font-size: clamp(28px, 4vw, 38px);
+      margin-bottom: 6px;
+      color: var(--primary-dark);
+    }
+
+    .clinic-loader-subtitle {
+      font-size: 14px;
+      color: var(--ink-soft);
+      margin-bottom: 8px;
+    }
+
+    .clinic-loader-text {
+      max-width: 320px;
+      margin: 0 auto 18px;
+      font-size: 14px;
+      color: var(--ink-soft);
+    }
+
+    .clinic-loader-dots {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .clinic-loader-dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(10, 54, 46, 0.18);
+      animation: loaderDotsPulse 1.2s ease-in-out infinite;
+    }
+
+    .clinic-loader-dots span:nth-child(2) {
+      animation-delay: 0.2s;
+      background: rgba(197, 162, 93, 0.54);
+    }
+
+    .clinic-loader-dots span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    .clinic-loader-status {
+      font-size: 12px;
+      color: var(--primary);
+      letter-spacing: 0.35px;
+      font-weight: 700;
+    }
+
+    @keyframes loaderCardIn {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes toothOutlineDraw {
+      0% {
+        stroke-dashoffset: 320;
+        opacity: 0.25;
+      }
+
+      35%,
+      80% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+      }
+
+      100% {
+        stroke-dashoffset: -320;
+        opacity: 0.9;
+      }
+    }
+
+    @keyframes toothShineDraw {
+      0%,
+      38% {
+        stroke-dashoffset: 34;
+        opacity: 0;
+      }
+
+      55%,
+      82% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+      }
+
+      100% {
+        stroke-dashoffset: -34;
+        opacity: 0;
+      }
+    }
+
+    @keyframes toothDotFloat {
+      0%,
+      100% {
+        transform: translateY(0) scale(0.95);
+        opacity: 0.45;
+      }
+
+      50% {
+        transform: translateY(-8px) scale(1.08);
+        opacity: 1;
+      }
+    }
+
+    @keyframes loaderGlowPulse {
+      0%,
+      100% {
+        transform: scale(0.95);
+        opacity: 0.45;
+      }
+
+      50% {
+        transform: scale(1.08);
+        opacity: 0.8;
+      }
+    }
+
+    @keyframes loaderDotsPulse {
+      0%,
+      100% {
+        transform: translateY(0);
+        opacity: 0.35;
+      }
+
+      50% {
+        transform: translateY(-5px);
+        opacity: 1;
+      }
+    }
+
+    @keyframes loaderAmbientFloat {
+      0%,
+      100% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate3d(0, -16px, 0) scale(1.04);
+      }
     }
 
     /* ===== SCROLL ANIMATION CLASS ===== */
@@ -1609,7 +1930,31 @@
   </style>
 </head>
 
-<body>
+<body class="loading-screen-active">
+
+  <div class="clinic-loader" id="clinicLoader" aria-hidden="true">
+    <div class="clinic-loader-card">
+      <div class="clinic-loader-kicker">Tooth Outline Loader</div>
+      <div class="tooth-loader-stage">
+        <div class="tooth-loader-glow"></div>
+        <span class="tooth-loader-dot dot-1"></span>
+        <span class="tooth-loader-dot dot-2"></span>
+        <svg class="tooth-loader-svg" viewBox="0 0 100 118" aria-hidden="true">
+          <path class="tooth-loader-outline" d="M50 8C35 8 22 19 22 37c0 13 6 19 7 31 .8 10 4 29 12 29 7 0 6-16 16-16s9 16 16 16c8 0 11.2-18.6 12-29 1-12 7-18 7-31C78 19 65 8 50 8Z" />
+          <path class="tooth-loader-shine" d="M63 23c6 4 10 11 10 19" />
+        </svg>
+      </div>
+      <div class="clinic-loader-title">د. أحمد سليمان</div>
+      <div class="clinic-loader-subtitle">عيادة أسنان متكاملة</div>
+      <p class="clinic-loader-text">نرسم ابتسامتك بعناية من أول لحظة، في تجربة هادئة وأنيقة تليق بالعيادة.</p>
+      <div class="clinic-loader-dots" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="clinic-loader-status">نجهّز لك التجربة الآن</div>
+    </div>
+  </div>
 
   <header class="site-nav">
     <div class="nav-inner">
@@ -2354,6 +2699,32 @@
   <script>
     // ====== غيّر الرقم هنا مرة واحدة وهيتحدث في كل الموقع ======
     const WHATSAPP_NUMBER = "201098277229"; // الرقم الجديد بالصيغة الدولية
+    const clinicLoader = document.getElementById('clinicLoader');
+    const loaderMinDuration = 1800;
+    const loaderStartTime = performance.now();
+
+    function hideClinicLoader() {
+      if (!clinicLoader || clinicLoader.dataset.hidden === 'true') return;
+
+      const elapsed = performance.now() - loaderStartTime;
+      const remaining = Math.max(loaderMinDuration - elapsed, 0);
+
+      setTimeout(() => {
+        clinicLoader.classList.add('is-hidden');
+        clinicLoader.dataset.hidden = 'true';
+        document.body.classList.remove('loading-screen-active');
+
+        setTimeout(() => {
+          clinicLoader.remove();
+        }, 900);
+      }, remaining);
+    }
+
+    if (document.readyState === 'complete') {
+      hideClinicLoader();
+    } else {
+      window.addEventListener('load', hideClinicLoader, { once: true });
+    }
 
     document.getElementById('waFloat').href =
       `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('أهلاً، عايز أستفسر عن حجز موعد في العيادة 🦷')}`;
