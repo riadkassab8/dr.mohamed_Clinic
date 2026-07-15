@@ -2434,6 +2434,36 @@
       after.innerHTML = `<img src="${afterImg}" alt="بعد العلاج - الحالة ${patientNumber}" style="width:100%; height:100%; object-fit:cover;"><span class="cap">بعد العلاج</span>`;
     }
 
+    function smoothScrollToCompare() {
+      const header = document.querySelector('.site-nav');
+      const headerOffset = header ? header.offsetHeight + 18 : 90;
+      const targetY = compareBox.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+      const startY = window.pageYOffset;
+      const distance = targetY - startY;
+      const duration = 650;
+      const startTime = performance.now();
+
+      function easeInOutCubic(t) {
+        return t < 0.5
+          ? 4 * t * t * t
+          : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
+
+      function step(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = easeInOutCubic(progress);
+
+        window.scrollTo(0, startY + distance * eased);
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
     const patientGallery = document.getElementById('patientGallery');
     if (patientGallery) {
       const patientItems = patientGallery.querySelectorAll('.patient-item');
@@ -2455,9 +2485,8 @@
         setCompare(50);
 
         if (shouldScroll) {
-          compareBox.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
+          requestAnimationFrame(() => {
+            smoothScrollToCompare();
           });
         }
       }
