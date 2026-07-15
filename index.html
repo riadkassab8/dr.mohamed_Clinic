@@ -122,8 +122,8 @@
     }
 
     .brand-mark {
-      width: 42px;
-      height: 42px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       background: var(--primary);
       display: flex;
@@ -132,8 +132,8 @@
     }
 
     .brand-mark svg {
-      width: 22px;
-      height: 22px;
+      width: 28px;
+      height: 28px;
     }
 
     .brand-text {
@@ -143,7 +143,7 @@
     }
 
     .brand-text b {
-      font-size: 19px;
+      font-size: 22px;
       color: var(--primary-dark);
       font-family: 'Markazi Text', serif;
     }
@@ -163,21 +163,23 @@
     nav.links button {
       background: none;
       padding: 10px 16px;
-      border-radius: 999px;
+      border-radius: 0;
       font-size: 15px;
       color: var(--ink-soft);
       font-weight: 500;
       transition: .25s;
+      border: none;
+      border-bottom: 2px solid transparent;
     }
 
     nav.links button:hover {
       color: var(--primary-dark);
-      background: rgba(31, 75, 67, 0.07);
+      border-bottom: 2px solid var(--primary);
     }
 
     nav.links button.active {
-      color: var(--surface);
-      background: var(--primary);
+      color: var(--primary-dark);
+      border-bottom: 2px solid var(--primary);
     }
 
     .cta-btn {
