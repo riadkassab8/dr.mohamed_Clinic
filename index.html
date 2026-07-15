@@ -271,7 +271,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(5, 31, 26, 0.35);
+      background: rgba(5, 31, 26, 0.484);
       z-index: 2;
     }
 
@@ -282,6 +282,7 @@
       height: 100%;
       object-fit: cover;
       z-index: 1;
+      filter: blur(15px);
     }
 
     .video-hero-content {
@@ -925,6 +926,53 @@
       font-size: 13px;
       color: var(--ink-soft);
       margin-top: 6px;
+    }
+
+    /* Patient Gallery Grid */
+    .patient-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .patient-item {
+      aspect-ratio: 1;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .patient-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .patient-item:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+
+    .patient-item.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(197, 162, 93, 0.3);
+    }
+
+    .patient-item .patient-name {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(5, 31, 26, 0.8);
+      color: #fff;
+      font-size: 13px;
+      padding: 8px 10px;
+      text-align: center;
+      font-weight: 500;
     }
 
     .testi-grid {
@@ -1736,7 +1784,7 @@
         </p>
 
         <div class="compare-box" id="compareBox">
-          <div class="compare-layer compare-before">
+          <div class="compare-layer compare-before" id="beforeLayer">
             <svg viewBox="0 0 200 120" fill="none">
               <path d="M20,55 Q100,15 180,55 L180,60 Q100,95 20,60 Z" fill="#E7B9A8" />
               <g fill="#D8C79A" stroke="#B7A874" stroke-width="1">
@@ -1778,6 +1826,49 @@
         <div class="compare-caption"><span>قبل العلاج</span><span>بعد العلاج</span></div>
         <p style="font-size:12.5px; color:var(--ink-soft); margin-top:8px;">* المساحة دي مكانها جاهز الآن لصورة توضيحية
           فقط — استبدلها بصور حقيقية لحالاتك بعد أخذ موافقة المريض.</p>
+        
+        <div class="patient-gallery" id="patientGallery">
+          <div class="patient-item active" data-patient="1" data-before="assets/case1_before.png" data-after="assets/case1_after.png">
+            <img src="assets/case1_after.png" alt="مريض 1">
+            <div class="patient-name">مريض 1</div>
+          </div>
+          <div class="patient-item" data-patient="2" data-before="assets/case2_before.png" data-after="assets/case2_after.png">
+            <img src="assets/case2_after.png" alt="مريض 2">
+            <div class="patient-name">مريض 2</div>
+          </div>
+          <div class="patient-item" data-patient="3" data-before="assets/case3_before.png" data-after="assets/case3_after.png">
+            <img src="assets/case3_after.png" alt="مريض 3">
+            <div class="patient-name">مريض 3</div>
+          </div>
+          <div class="patient-item" data-patient="4" data-before="assets/case4_before.png" data-after="assets/case4_after.png">
+            <img src="assets/case4_after.png" alt="مريض 4">
+            <div class="patient-name">مريض 4</div>
+          </div>
+          <div class="patient-item" data-patient="5" data-before="assets/case5_before.png" data-after="assets/case5_after.png">
+            <img src="assets/case5_after.png" alt="مريض 5">
+            <div class="patient-name">مريض 5</div>
+          </div>
+          <div class="patient-item" data-patient="6" data-before="assets/case6_before.png" data-after="assets/case6_after.png">
+            <img src="assets/case6_after.png" alt="مريض 6">
+            <div class="patient-name">مريض 6</div>
+          </div>
+          <div class="patient-item" data-patient="7" data-before="assets/case7_before.png" data-after="assets/case7_after.png">
+            <img src="assets/case7_after.png" alt="مريض 7">
+            <div class="patient-name">مريض 7</div>
+          </div>
+          <div class="patient-item" data-patient="8" data-before="assets/case8_before.png" data-after="assets/case8_after.png">
+            <img src="assets/case8_after.png" alt="مريض 8">
+            <div class="patient-name">مريض 8</div>
+          </div>
+          <div class="patient-item" data-patient="9" data-before="assets/case9_before.png" data-after="assets/case9_after.png">
+            <img src="assets/case9_after.png" alt="مريض 9">
+            <div class="patient-name">مريض 9</div>
+          </div>
+          <div class="patient-item" data-patient="10" data-before="assets/case10_before.png" data-after="assets/case10_after.png">
+            <img src="assets/case10_after.png" alt="مريض 10">
+            <div class="patient-name">مريض 10</div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1995,6 +2086,7 @@
     // before/after slider
     const slider = document.getElementById('compareSlider');
     const after = document.getElementById('afterLayer');
+    const before = document.getElementById('beforeLayer');
     const handle = document.getElementById('handle');
     const compareBox = document.getElementById('compareBox');
 
@@ -2037,6 +2129,32 @@
     compareBox.addEventListener('touchstart', startDrag, { passive: true });
     window.addEventListener('touchmove', moveDrag, { passive: true });
     window.addEventListener('touchend', endDrag);
+
+    // Patient gallery functionality
+    const patientGallery = document.getElementById('patientGallery');
+    if (patientGallery) {
+      const patientItems = patientGallery.querySelectorAll('.patient-item');
+      
+      patientItems.forEach(item => {
+        item.addEventListener('click', () => {
+          // Remove active class from all items
+          patientItems.forEach(i => i.classList.remove('active'));
+          // Add active class to clicked item
+          item.classList.add('active');
+          
+          // Get image paths
+          const beforeImg = item.dataset.before;
+          const afterImg = item.dataset.after;
+          
+          // Update compare layers with images
+          before.innerHTML = `<img src="${beforeImg}" alt="قبل العلاج" style="width:100%; height:100%; object-fit:cover;">`;
+          after.innerHTML = `<img src="${afterImg}" alt="بعد العلاج" style="width:100%; height:100%; object-fit:cover;">`;
+          
+          // Reset slider to middle
+          setCompare(50);
+        });
+      });
+    }
 
     // booking form -> whatsapp with validation
     function sendBookingToWhatsapp() {
